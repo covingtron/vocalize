@@ -1,0 +1,8 @@
+# This file overrides settings from `.config/mise.toml`.
+# Because `.config/mise.toml` is continuously overwritten by `mise cookiecutter`,
+# any project-specific modifications should be placed here to avoid being clobbered.
+
+[tools]
+node = 'latest'
+python = '3.12'
+uv = 'latest'

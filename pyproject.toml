@@ -1,0 +1,30 @@
+[project]
+name = 'vclz'
+version = '0'
+requires-python = '>=3.12'
+
+[project.optional-dependencies]
+precommit = [
+    'actionlint-py',
+    'basedpyright',
+    'cookiecutter',
+    'django-upgrade',
+    'djlint',
+    'hadolint-py @ git+https://github.com/AleksaC/hadolint-py.git',
+    'pre-commit-hooks',
+    'pyrefly',
+    'pytest',
+    'pytest-cov',
+    'ruff',
+    'shellcheck-py',
+    'shfmt-py',
+    'typos',
+    'validate-pyproject[all]',
+    'yamllint',
+]
+
+[tool.basedpyright]
+extends = '.biobuddies/basedpyright.toml'
+
+[tool.ruff]
+extend = '.biobuddies/ruff.toml'

@@ -1,0 +1,9 @@
+{
+    "name": "vclz",
+    "devDependencies": {
+        "prettier": ">=3.8.2",
+        "prettier-plugin-jinja-template": "*",
+        "prettier-plugin-organize-attributes": "*",
+        "prettier-plugin-toml": "*"
+    }
+}
