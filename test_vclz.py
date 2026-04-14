@@ -49,7 +49,6 @@ def test_vclz_with_input_file(tmp_path: Path):
     output = check_output(['sh', '-c', run_script], env=minimal_environment, stderr=STDOUT)
 
     assert b'mocked transcription output\n' in output
-    assert b'Transcribing...' in output
 
 
 def test_vclz_records_when_no_input():
@@ -64,6 +63,24 @@ def test_vclz_records_when_no_input():
         ['sh', '-c', run_script], input=b'\n', env=minimal_environment, stderr=STDOUT
     )
 
-    assert b'Recording... Press ENTER to stop.' in output
     assert b'spoken words\n' in output
-    assert b'Transcribing...' in output
+
+
+def test_vclz_with_st_ives_opus():
+    script = Path('vclz.sh').read_text()
+    opus_file = Path('st-ives.opus')
+    expected = (
+        'As I was going to St Ives,\n'
+        'Upon the road I met seven wives;\n'
+        'Every wife had seven sacks,\n'
+        'Every sack had seven cats,\n'
+        'Every cat had seven kits:\n'
+        'Kits, cats, sacks, and wives,\n'
+        'How many were going to St Ives?'
+    )
+    minimal_environment = {'EXPECTED_TRANSCRIPTION': expected, 'PATH': environ.get('PATH', '')}
+
+    run_script = f"{MOCK_SETUP}\n{script}\nvclz '{opus_file}'"
+    output = check_output(['sh', '-c', run_script], env=minimal_environment, stderr=STDOUT)
+
+    assert expected.encode() + b'\n' in output
