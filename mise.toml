@@ -6,3 +6,12 @@
 node = 'latest'
 python = '3.12'
 uv = 'latest'
+
+[tasks.test]
+run = '''
+#!/usr/bin/env bash
+if [ "$(mise envi)" = "github" ]; then
+    sudo apt-get update && sudo apt-get install -y ffmpeg sox
+fi
+python -m pytest test_vclz.py
+'''
