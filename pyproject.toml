@@ -2,6 +2,9 @@
 name = 'vclz'
 version = '0'
 requires-python = '>=3.12'
+dependencies = [
+    'pyinfra',
+]
 
 [project.optional-dependencies]
 precommit = [
@@ -28,3 +31,5 @@ extends = '.biobuddies/basedpyright.toml'
 
 [tool.ruff]
 extend = '.biobuddies/ruff.toml'
+[tool.pyright]
+reportCallIssue = false

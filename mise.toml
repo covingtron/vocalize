@@ -15,3 +15,25 @@ if [ "$(mise envi)" = "github" ]; then
 fi
 python -m pytest test_vclz.py
 '''
+
+[tasks.run-on-sources]
+quiet = true
+run = '''
+#!/usr/bin/env bash
+set -o errexit -o nounset -o pipefail
+tool=${1:?missing executable}
+eval "glob=(${2:?missing source glob})"
+shift 2
+command_args=$*
+set -- $(
+    git ls-files -- "${glob[@]}" \
+        | grep --invert-match --extended-regexp --file <(
+            grep --invert-match '^#' .biobuddies/autoformat-excludes
+        ) \
+        | xargs grep -I -l "" 2>/dev/null \
+        || [[ $? -eq 1 ]]
+)
+[[ $# -eq 0 ]] && exit 0
+[[ -z $command_args ]] || set -- $command_args "$@"
+"$tool" "$@"
+'''
