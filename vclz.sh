@@ -54,18 +54,14 @@ vclz() {
 
     local whisper_executable="${WHISPER_CLI:-whisper-cli}"
     local whisper_model_path="${WHISPER_MODEL:-models/ggml-base.en.bin}"
-    local whisper_arguments=(
-        --model "$whisper_model_path"
-        --file "$transcoded_audio_path"
-        --output-txt
-    )
+    set -- --model "$whisper_model_path" --file "$transcoded_audio_path" --output-txt
 
     local vad_model_path="${VAD_MODEL:-models/ggml-silero-v6.2.0.bin}"
     if [ -n "$vad_model_path" ] && [ -f "$vad_model_path" ]; then
-        whisper_arguments+=(--vad -vm "$vad_model_path")
+        set -- "$@" --vad -vm "$vad_model_path"
     fi
 
-    "$whisper_executable" "${whisper_arguments[@]}" >/dev/null 2>&1
+    "$whisper_executable" "$@" >/dev/null 2>&1
 
     local text_output_path="${transcoded_audio_path}.txt"
     if [ -f "$text_output_path" ]; then
